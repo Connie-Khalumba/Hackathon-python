@@ -1,21 +1,23 @@
-class Solution:
-    def lengthOfLongestSubstring(self, s: str) -> int:
-        substring_length = {}
-        i = 0
-        count = 0
-        char = ""
-        while i != len(s) :
-            if s[i] not in char:
-                char = char + s[i]
-                count += 1
-                i += 1
-                if i == len(s) :
-                    substring_length[char] = count
-            elif s[i] in char:
-                substring_length[char] = count
-                char = ""
-                count = 0
-            
-        if len(substring_length) == 0:
-            substring_length[s] = len(s)
-        return max(substring_length.values())
+def lengthOfLongestSubstring(s: str) -> int:
+    char_set = set()  # Set to store unique characters in the current window
+    left = 0          # Left pointer for the sliding window
+    max_length = 0    # Variable to store the maximum length found
+
+    for right in range(len(s)):
+        # If we encounter a repeating character, shrink the window from the left
+        while s[right] in char_set:
+            char_set.remove(s[left])  # Remove character at left pointer from the set
+            left += 1  # Move left pointer to the right
+        
+        # Add the current character to the set
+        char_set.add(s[right])
+        
+        # Calculate the current window length and update max_length if it's the longest so far
+        max_length = max(max_length, right - left + 1)
+    
+    return max_length
+
+# Example usage:
+input_string = "abcabcbbc"
+result = lengthOfLongestSubstring(input_string)
+print(f"Length of the longest substring without repeating characters: {result}")
