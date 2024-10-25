@@ -5,12 +5,12 @@ def lengthOfLongestSubstring(s: str) -> int:
 
     for right in range(len(s)):
         # If we encounter a repeating character, shrink the window from the left
-        while s[right] in char_set:
+        while s[index] in char_set:
             char_set.remove(s[left])  # Remove character at left pointer from the set
             left += 1  # Move left pointer to the right
         
         # Add the current character to the set
-        char_set.add(s[right])
+        char_set.add(s[index])
         
         # Calculate the current window length and update max_length if it's the longest so far
         max_length = max(max_length, right - left + 1)
