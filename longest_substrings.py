@@ -1,23 +1,22 @@
-def lengthOfLongestSubstring(s: str) -> int:
-    char_set = set()  # Set to store unique characters in the current window
-    left = 0          # Left pointer for the sliding window
-    max_length = 0    # Variable to store the maximum length found
-
-    for right in range(len(s)):
-        # If we encounter a repeating character, shrink the window from the left
-        while s[index] in char_set:
-            char_set.remove(s[left])  # Remove character at left pointer from the set
-            left += 1  # Move left pointer to the right
-        
-        # Add the current character to the set
-        char_set.add(s[index])
-        
-        # Calculate the current window length and update max_length if it's the longest so far
-        max_length = max(max_length, right - left + 1)
-    
-    return max_length
+class Solution:
+    @staticmethod
+    def length_of_longest_substr(s: str) -> int:
+        result = 0
+        hash_map = {}
+        i = 0
+        j = 0
+        while j < len(s):
+            char = s[j]
+            # If a duplicate is found, update i to our stored next valid position
+            if char in hash_map:
+                i = max(hash_map[char], i)
+            result = max(result, j - i + 1)
+            # Store the next index for this character, as this will be the next valid position to de-duplicate
+            hash_map[char] = j + 1
+            j += 1
+        return result
 
 # Example usage:
 input_string = "abcabcbbc"
-result = lengthOfLongestSubstring(input_string)
+result = Solution.length_of_longest_substr(input_string)
 print(f"Length of the longest substring without repeating characters: {result}")
